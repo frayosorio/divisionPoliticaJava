@@ -31,6 +31,8 @@ public class Archivo {
         if (f.exists()) {
             ImageIcon img = new ImageIcon(nombreArchivo);
             lbl.setIcon(img);
+        } else {
+            lbl.setIcon(null);
         }
     }
 

@@ -67,8 +67,8 @@ public class DivisionPolitica {
                         while (linea != null) {
                             String[] textos = linea.split(",");
                             if (textos.length >= 2) {
-                                if(textos[0].equalsIgnoreCase(nombreDepto)){
-                                    String nombreArchivoMapa=ruta+"/src/mapas/"+textos[1];
+                                if (textos[0].equalsIgnoreCase(nombreDepto)) {
+                                    String nombreArchivoMapa = ruta + "/src/mapas/" + textos[1];
                                     Archivo.cargarImagen(lbl, nombreArchivoMapa);
                                 }
                             }
@@ -82,6 +82,32 @@ public class DivisionPolitica {
             }
         }
 
+    }
+
+    public static void mostrarFoto(JLabel lbl, JTree arbol) {
+        //obtener nodo seleccionado
+        DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
+        if (nodo != null) {
+
+            if (nodo.getLevel() == 2) {
+                String nombreMpio = nodo.toString();
+
+                //definir la ruta de la foto
+                String ruta = System.getProperty("user.dir");
+                String nombreArchivoFoto = ruta + "/src/fotos/" + quitarTildes(nombreMpio) + ".jpg";
+                Archivo.cargarImagen(lbl, nombreArchivoFoto);
+            }
+        }
+    }
+    
+    public static String quitarTildes(String texto){
+        return texto.toLowerCase().replace('á', 'a').
+                replace('é', 'e').
+                replace('í', 'i').
+                replace('ó', 'o').
+                replace('ú', 'u').
+                replace('ü', 'u').
+                replace('ñ', 'n');
     }
 
 }
