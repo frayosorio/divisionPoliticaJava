@@ -99,8 +99,48 @@ public class DivisionPolitica {
             }
         }
     }
-    
-    public static String quitarTildes(String texto){
+
+    public static void mostrarDatos(JTextArea txt, JTree arbol) {
+        String contenido = "";
+        //obtener nodo seleccionado
+        DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
+        if (nodo != null) {
+            if (nodo.getLevel() == 2) {
+                String nombreMpio = nodo.toString();
+                String nombreDepto = nodo.getParent().toString();
+
+                String ruta = System.getProperty("user.dir");
+                String nombreArchivoDatos = ruta + "/src/datos/" + nombreDepto + ".txt";
+
+                BufferedReader br = Archivo.abrirArchivo(nombreArchivoDatos);
+
+                if (br != null) {
+                    try {
+                        String linea = br.readLine();
+                        String[] encabezados = linea.split(";");
+                        linea = br.readLine();
+                        while (linea != null) {
+                            String[] textos = linea.split(";");
+                            if (textos.length >= encabezados.length) {
+                                if (quitarTildes(textos[0]).contains(quitarTildes(nombreMpio))) {
+                                    for (int i = 0; i < encabezados.length; i++) {
+                                        contenido += encabezados[i] + ": " + textos[i] + "\n";
+                                    }
+                                }
+                            }
+                            linea = br.readLine();
+                        }
+                    } catch (Exception ex) {
+
+                    }
+                }
+
+            }
+        }
+        txt.setText(contenido);
+    }
+
+    public static String quitarTildes(String texto) {
         return texto.toLowerCase().replace('á', 'a').
                 replace('é', 'e').
                 replace('í', 'i').

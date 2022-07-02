@@ -78,6 +78,7 @@ public class FrmDPColombia extends javax.swing.JFrame {
         
         DivisionPolitica.mostrarMapa(lblMapa, tvDP);
         DivisionPolitica.mostrarFoto(lblMapa, tvDP);
+        DivisionPolitica.mostrarDatos(txtTexto, tvDP);
         
     }//GEN-LAST:event_tvDPValueChanged
 
