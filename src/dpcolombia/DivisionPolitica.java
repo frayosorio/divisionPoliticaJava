@@ -48,11 +48,40 @@ public class DivisionPolitica {
     }
 
     public static void mostrarMapa(JLabel lbl, JTree arbol) {
-        //abrir el artchivo con los nombres de los mapas
-        String ruta = System.getProperty("user.dir");
-        String nombreArchivo = ruta + "/src/datos/Mapas.txt";
-        
-        
+        //obtener nodo seleccionado
+        DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
+        if (nodo != null) {
+
+            if (nodo.getLevel() <= 1) {
+                String nombreDepto = nodo.toString();
+
+                //abrir el artchivo con los nombres de los mapas
+                String ruta = System.getProperty("user.dir");
+                String nombreArchivo = ruta + "/src/datos/Mapas.txt";
+
+                BufferedReader br = Archivo.abrirArchivo(nombreArchivo);
+
+                if (br != null) {
+                    try {
+                        String linea = br.readLine();
+                        while (linea != null) {
+                            String[] textos = linea.split(",");
+                            if (textos.length >= 2) {
+                                if(textos[0].equalsIgnoreCase(nombreDepto)){
+                                    String nombreArchivoMapa=ruta+"/src/mapas/"+textos[1];
+                                    Archivo.cargarImagen(lbl, nombreArchivoMapa);
+                                }
+                            }
+                            linea = br.readLine();
+                        }
+
+                    } catch (Exception ex) {
+
+                    }
+                }
+            }
+        }
+
     }
 
 }
